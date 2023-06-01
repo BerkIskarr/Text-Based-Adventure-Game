@@ -1,6 +1,14 @@
 import tkinter 
 import random as rn
 
+def bubble_sort(data,key):
+    for k in range(len(data)):
+        for n in range(len(data)-k-1):# -1 is to avoid resorting the elements
+            if data[n][key]>data[n+1][key]:#we are comparing the key value to the next dictionary's. 
+                data[n], data[n+1] = data[n+1], data[n] #if the key value is bigger than the next, it swaps the dictionaries
+
+    return data
+
 def append_to_inventory(file,list, word):    
     my_file =open(file, "r")
     global rand_money
@@ -62,6 +70,9 @@ def change():
     rand_money+=100
     user_health=tkinter.Label(Frame_info,text=("health : "+str(rand_money)),font=("TimesRoman, 12"))
     user_health.grid(row=0,column=3)
+    
+def show_inventory():
+    print("weapons :",*bubble_sort(weapons,"damage"),"\nkeys : ", *bubble_sort(keys,"code"),"\narmours : ",*bubble_sort(armours,"durability"))
 
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
