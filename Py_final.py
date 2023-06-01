@@ -1,6 +1,38 @@
 import tkinter 
 import random as rn
 
+def append_to_inventory(file,list, word):    
+    my_file =open(file, "r")
+    global rand_money
+    whole_text =my_file.readlines()
+    for line in whole_text:
+        
+        if word in line.lower():
+            split_line = line.split(",")
+            if "weapon" in word:
+                dict = {"name": split_line[0].split(":")[1],"damage": int(split_line[1]),
+                "price": int(split_line[2])} 
+
+            elif "armour" in word:
+                dict = {"name": split_line[0].split(":")[0],"durability": int(split_line[0].split(":")[1]),
+                "price": int(split_line[1])} 
+            elif "key" in word:
+                dict = {"name": split_line[0].split(":")[0],"code": int(split_line[0].split(":")[1]),
+                "price": int(split_line[1])} 
+            if rand_money>=dict["price"]:
+                if dict not in list:  
+                    rand_money-=dict["price"]
+                    list.append(dict)
+                    user_money=tkinter.Label(Frame_info,text=("money : "+str(rand_money)),font=("TimesRoman, 12")) 
+                    user_money.grid(row=0,column=2)
+                else:
+                    print("You already have it in your inventory! ")
+                
+            else:
+                print("Not enough money! ")
+
+    my_file.close()
+    return list
 
 name= input("Enter your name? >> ")
 rand_money=rn.randint(50,310)
