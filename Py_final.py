@@ -74,6 +74,30 @@ def change():
 def show_inventory():
     print("weapons :",*bubble_sort(weapons,"damage"),"\nkeys : ", *bubble_sort(keys,"code"),"\narmours : ",*bubble_sort(armours,"durability"))
 
+def shopping():
+    
+    shop_txt=open("Shop.txt","r+")
+    global rand_money
+    shop_description=shop_txt.read()
+    print("\n",shop_description)
+    while True:
+        wep_arm_heal=input("what would you like? \n1 for Weapon, \n2 for Key, \n3 for HealingPad, \n4 for Armour, \n5 for quit  >> ")
+        if wep_arm_heal=="1":
+            wep_shop_choice= input("Which weapon would you like to buy, type the number (etc.,type '1' for weapon1)? >> ")
+            if wep_shop_choice=="1":
+                append_to_inventory("shop.txt",weapons,"weapon1")
+            if wep_shop_choice=="2":
+                append_to_inventory("shop.txt",weapons,"weapon2")
+            if wep_shop_choice=="3":
+                append_to_inventory("shop.txt",weapons,"weapon3")
+            if wep_shop_choice=="4":
+                append_to_inventory("shop.txt",weapons,"weapon4")
+            if wep_shop_choice=="5":
+                append_to_inventory("shop.txt",weapons,"weapon5")
+        if wep_arm_heal=="5":
+            break
+    shop_txt.close()
+    
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
