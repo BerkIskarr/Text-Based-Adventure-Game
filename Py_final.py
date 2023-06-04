@@ -81,39 +81,43 @@ def show_inventory():
     print("weapons :",*bubble_sort(weapons,"damage"),"\nkeys : ", *bubble_sort(keys,"code"),"\narmours : ",*bubble_sort(armours,"durability"))
 
 def shopping():
-    
-    shop_txt=open("Shop.txt","r+")
-    global rand_money
-    
-    print("\n",shop_description)
     while True:
-        buy_sell=input("1. Buy \n2. Sell \n3. Quit (type 1 or 2) ")
-        if buy_sell=="1":
+        try:
+            buy_sell=input("1. Buy \n2. Sell \n3. Quit (type 1 or 2) ")
+            if buy_sell=="1":
                 with open("Shop.txt","r+") as shop_txt:
                     first_line=shop_txt.readline()
                     global rand_money        
                     print("\n",first_line)
-        wep_arm_heal=input("what would you like? \n1 for Weapon, \n2 for Key, \n3 for HealingPad, \n4 for Armour, \n5 for quit  >> ")
-        
-           if wep_arm_heal=="1":
+                wep_arm_heal=input("\nwhat would you like? \n1 for Weapon, \n2 for Key, \n3 for HealingPad, \n4 for Armour, \n5 for quit  >> ")
+                if wep_arm_heal=="1":
                     shop_description("Shop.txt", "weapon")
                     wep_shop_choice= input("Which weapon would you like to buy, type the number (etc.,type '1' for weapon1)? >> ")
                     append_to_inventory("shop.txt",weapons,"weapon"+wep_shop_choice)
-            elif wep_arm_heal=="2":
+                elif wep_arm_heal=="2":
                     shop_description("Shop.txt", "key")
                     buy_key=input("1. buy\n2. go back\n")
                     if buy_key=="1":
                         append_to_inventory("shop.txt",keys, "key:") 
-            elif wep_arm_heal=="4": 
+                elif wep_arm_heal=="3":
+                    shop_description("Shop.txt", "healing") 
+                    buy_heal= input("1. buy\n2. go back\n")           
+                    if buy_heal=="1":
+                        healing_pad()                      
+                elif wep_arm_heal=="4": 
                     shop_description("Shop.txt", "armour")
                     wep_shop_choice= input("\nWhich armor would you like to buy, type the number (etc.,type '1' for armour1) ? >> ")
                     append_to_inventory("shop.txt",armours,"armour"+wep_shop_choice)
-            if wep_shop_choice=="5":
-                append_to_inventory("shop.txt",weapons,"weapon5")
-        if wep_arm_heal=="5":
-            break
-    shop_txt.close()
-    
+                elif wep_arm_heal=="5":
+                    break
+                shop_txt.close()
+            elif buy_sell=="2":
+                print("hello")
+            if buy_sell=="3":
+                break
+        except:
+            print("Invalid!!  ")
+            
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
