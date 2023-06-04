@@ -9,6 +9,12 @@ def bubble_sort(data,key):
 
     return data
 
+def shop_description(file, word):
+    with open(file, "r") as shop_file:
+        for line in shop_file:
+            if word in line.lower():
+                print(line)
+                
 def append_to_inventory(file,list, word):    
     my_file =open(file, "r")
     global rand_money
