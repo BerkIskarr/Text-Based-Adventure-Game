@@ -94,8 +94,11 @@ def shopping():
                 append_to_inventory("shop.txt",weapons,"weapon1")
             if wep_shop_choice=="2":
                 append_to_inventory("shop.txt",weapons,"weapon2")
-            if wep_shop_choice=="3":
-                append_to_inventory("shop.txt",weapons,"weapon3")
+            elif wep_arm_heal=="2":
+                    shop_description("Shop.txt", "key")
+                    buy_key=input("1. buy\n2. go back\n")
+                    if buy_key=="1":
+                        append_to_inventory("shop.txt",keys, "key:") 
             if wep_shop_choice=="4":
                 append_to_inventory("shop.txt",weapons,"weapon4")
             if wep_shop_choice=="5":
