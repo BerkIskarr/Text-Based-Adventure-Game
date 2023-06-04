@@ -84,23 +84,30 @@ def shopping():
     
     shop_txt=open("Shop.txt","r+")
     global rand_money
-    shop_description=shop_txt.read()
+    
     print("\n",shop_description)
     while True:
+        buy_sell=input("1. Buy \n2. Sell \n3. Quit (type 1 or 2) ")
+        if buy_sell=="1":
+                with open("Shop.txt","r+") as shop_txt:
+                    first_line=shop_txt.readline()
+                    global rand_money        
+                    print("\n",first_line)
         wep_arm_heal=input("what would you like? \n1 for Weapon, \n2 for Key, \n3 for HealingPad, \n4 for Armour, \n5 for quit  >> ")
-        if wep_arm_heal=="1":
-            wep_shop_choice= input("Which weapon would you like to buy, type the number (etc.,type '1' for weapon1)? >> ")
-            if wep_shop_choice=="1":
-                append_to_inventory("shop.txt",weapons,"weapon1")
-            if wep_shop_choice=="2":
-                append_to_inventory("shop.txt",weapons,"weapon2")
+        
+           if wep_arm_heal=="1":
+                    shop_description("Shop.txt", "weapon")
+                    wep_shop_choice= input("Which weapon would you like to buy, type the number (etc.,type '1' for weapon1)? >> ")
+                    append_to_inventory("shop.txt",weapons,"weapon"+wep_shop_choice)
             elif wep_arm_heal=="2":
                     shop_description("Shop.txt", "key")
                     buy_key=input("1. buy\n2. go back\n")
                     if buy_key=="1":
                         append_to_inventory("shop.txt",keys, "key:") 
-            if wep_shop_choice=="4":
-                append_to_inventory("shop.txt",weapons,"weapon4")
+            elif wep_arm_heal=="4": 
+                    shop_description("Shop.txt", "armour")
+                    wep_shop_choice= input("\nWhich armor would you like to buy, type the number (etc.,type '1' for armour1) ? >> ")
+                    append_to_inventory("shop.txt",armours,"armour"+wep_shop_choice)
             if wep_shop_choice=="5":
                 append_to_inventory("shop.txt",weapons,"weapon5")
         if wep_arm_heal=="5":
