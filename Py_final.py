@@ -14,37 +14,65 @@ def shop_description(file, word):
         for line in shop_file:
             if word in line.lower():
                 print(line)
-                
-def append_to_inventory(file,list, word):    
-    my_file =open(file, "r")
+def set_health(health):
+    user_health.config(text="health: " + str(health))
+
+def copy_file(source_file, target_file):
+    shutil.copy(source_file, target_file)
+
+def healing_pad(temp_file):
+    global health
+    with open(temp_file.name, "r+") as shop_file:
+        lines_in_file = shop_file.readlines()
+        for count, line in enumerate(lines_in_file):
+            if "healingpad" in line.lower():
+                quantity = int(lines_in_file[count + 1].strip())
+                shop_description(temp_file.name, "healing") 
+                print("Amount of peds: ", quantity) 
+                buy_heal= input("1. buy\n2. go back\n")  
+                if buy_heal=="1":
+                    pad_health = int(line.split("health +")[1].split(",")[0])
+                    if health == 100 and quantity > 0:
+                        print("Max health, cannot buy! ")
+                    elif health + pad_health <= 100 and quantity > 0:
+                        health += pad_health
+                        quantity -= 1
+                    elif quantity <= 0:
+                        print("Run out of HealingPads! ")
+                    else:
+                        exceeds = input("Health exceeds the max(100)\nAre you sure? ('yes' or 'no') ")
+                        if exceeds == "yes":
+                            health = 100
+                            quantity -= 1
+                    lines_in_file[count + 1] = str(quantity) + "\n"
+                    shop_file.seek(0)
+                    shop_file.writelines(lines_in_file)
+                    shop_file.truncate()
+                    set_health(health)
+
+def append_to_inventory(file, list, word):
+    my_file = open(file, "r")
     global rand_money
-    whole_text =my_file.readlines()
+    whole_text = my_file.readlines()
     for line in whole_text:
-        
         if word in line.lower():
             split_line = line.split(",")
             if "weapon" in word:
-                dict = {"name": split_line[0].split(":")[1],"damage": int(split_line[1]),
-                "price": int(split_line[2])} 
-
+                dict = {"name": split_line[0].split(":")[1], "damage": int(split_line[1]), "price": int(split_line[2])}
             elif "armour" in word:
-                dict = {"name": split_line[0].split(":")[0],"durability": int(split_line[0].split(":")[1]),
-                "price": int(split_line[1])} 
+                dict = {"name": split_line[0].split(":")[0], "durability": int(split_line[0].split(":")[1]), "price": int(split_line[1])}
             elif "key" in word:
-                dict = {"name": split_line[0].split(":")[0],"code": int(split_line[0].split(":")[1]),
-                "price": int(split_line[1])} 
-            if rand_money>=dict["price"]:
-                if dict not in list:  
-                    rand_money-=dict["price"]
+                dict = {"name": split_line[0].split(":")[0], "code": int(split_line[0].split(":")[1]), "price": int(split_line[1])}
+            if rand_money >= dict["price"]:
+                if dict not in list:
+                    rand_money -= dict["price"]
                     list.append(dict)
-                    user_money=tkinter.Label(Frame_info,text=("money : "+str(rand_money)),font=("TimesRoman, 12")) 
-                    user_money.grid(row=0,column=2)
+                    print("Bought")
+                    user_money.config(text=("money : " + str(rand_money)))
                 else:
                     print("You already have it in your inventory! ")
-                
             else:
                 print("Not enough money! ")
-
     my_file.close()
     return list
 
