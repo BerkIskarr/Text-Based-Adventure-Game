@@ -110,6 +110,14 @@ def show_inventory():
 
 with tempfile.NamedTemporaryFile(mode="w", delete=False) as shop_copy:
     copy_file("shop.txt", shop_copy.name)
+with tempfile.NamedTemporaryFile(mode="w", delete=False) as room1_copy:
+    copy_file("room1.txt", room1_copy.name)
+with tempfile.NamedTemporaryFile(mode="w", delete=False) as room2_copy:
+    copy_file("room2.txt", room2_copy.name)
+with tempfile.NamedTemporaryFile(mode="w", delete=False) as room3_copy:
+    copy_file("room3.txt", room3_copy.name)
+with tempfile.NamedTemporaryFile(mode="w", delete=False) as room4_copy:
+    copy_file("room4.txt", room4_copy.name)
     
 def sell(list, word):
     global rand_money
