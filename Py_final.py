@@ -182,6 +182,48 @@ def win_loss(sentence):
     window_new.protocol("WM_DELETE_WINDOW", close)
     window_new.mainloop()
     
+dead_bool=[True,True,True,True]
+
+def adventure_room(room_copy,idx):
+    global rand_money
+    global point
+    global health
+    global run
+    global dead_bool
+    global armour_bool
+    treasure_bool=False
+    key_bool=False
+    pad_bool=False   
+    key_exist=False
+    found_wep=False
+    found_arm=False
+    arm_choice_bool=False
+    key_found_bool=False
+    try:
+        with open(room_copy.name, "r+") as room_file:
+            lines_room = room_file.readlines()
+            print("\n"+"-"*20+"\n")
+            for lines in lines_room:
+                print(lines, end="")
+            print("\n"+"-"*20+"\n")
+            if dead_bool[idx]==True:
+                fight_run = input("1 for fight\n2 for run\n")
+
+                if fight_run == "1":
+                    if len(weapons) != 0 and health > 0:
+                        show_inventory("weapons")
+                        while(found_wep==False):                                                     
+                            chose_wep = input("Enter the name of the weapon as given >> ")
+                            for dict in weapons:
+                                if dict["name"]==chose_wep:
+                                    chosen_weapon=dict
+                                    found_wep=True           
+                                else:
+                                    print("Doesn't exist, please enter from existing weapons")
+                            
+                        chosen_armour = {}
+                        treasure_enemy = {}                
+   
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
