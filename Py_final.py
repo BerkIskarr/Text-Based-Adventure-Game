@@ -168,7 +168,20 @@ def shopping():
                     break
     except:
         print("Invalid! ")  
-            
+def close():
+    sys.exit(0)
+
+def win_loss(sentence):
+    window_new = tkinter.Tk()
+    window_new.geometry("700x700")
+    window_new.title("And...")
+    frame = tkinter.Frame(window_new)
+    frame.pack(expand=True)
+    win_loss_condition = tkinter.Label(frame, text=sentence, font=("TimesRoman", 40))
+    win_loss_condition.pack(expand=True)
+    window_new.protocol("WM_DELETE_WINDOW", close)
+    window_new.mainloop()
+    
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
