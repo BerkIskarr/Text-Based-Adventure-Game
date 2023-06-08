@@ -274,6 +274,101 @@ def adventure_room(room_copy,idx):
                             elif "# healingpad" in lines.lower():
                                 pad_bool=True
                                 pad_line=int(lines_room[count + 1])
+                        updated_lines = []
+                        for i in range(2):
+                            updated_lines.append(lines_room[i])
+                        while dict_enemy["health"] > 0 and health > 0:
+                            dict_enemy["health"] -= chosen_weapon["damage"]
+                            if armour_bool==True:
+                                health -= round(dict_enemy["damage"] / chosen_armour["durability"])
+                            else:
+                                health -= dict_enemy["damage"]
+                        if health<=0 and health<dict_enemy["health"]:
+                            updated_lines.clear()
+                            updated_lines=lines_room
+                            print("\n"+"-"*20+"\n")
+                            print("You lost! ")
+                            point-=2
+                            user_point.config(text=("point: " + str(point)))
+                            weapons.remove(chosen_weapon)
+                            health=0
+                            set_health(health)
+                            for count, lines in enumerate(updated_lines):
+                                if "# enemy" in lines.lower():
+                                    updated_lines[count + 1] = dict_enemy["name"] + "," +str(dict_enemy["damage"]) + "," + str(dict_enemy["health"]) + "\n"
+                                    break
+                        elif dict_enemy["health"] <= 0:
+                            run=("You already killed the enemy\n2 for leave")
+                            set_health(health)
+                            weapons.remove(chosen_weapon)
+                            if found_arm==True:
+                                armours.remove(chosen_armour)
+                            if pad_bool==True:
+                                if health + pad_line <= 100:
+                                    health += pad_line
+                                else:
+                                    health=100
+                                user_health.config(text=("health : "+str(health)))  
+                            print("\n"+"-"*20+"\n")
+                            print("Congrats!! " + dict_enemy["name"] + " has been defeated!!\n")
+                            weapons.append(dict_weapon)
+                            point += point_line
+                            user_point.config(text=("point: " + str(point)))
+                            rand_money += money_line
+                            user_money.config(text=("money: " + str(rand_money)))
+                            print("Weapon, point, and money added!\n")
+                            if key_bool==True:
+                                keys.append(key_enemy)
+                            if treasure_bool==True:
+                                while(key_found_bool==False):
+                                    treasure_choice = input("Wanna open the treasure? (y/n) ")
+                                    for key in keys:
+                                        if treasure_enemy["code"] in key.values():
+                                            key_exist=True
+                                    if treasure_choice == "y":
+                                        if key_exist==True:
+                                            for key in keys:
+                                                if treasure_enemy["code"] in key.values():
+                                                    print("\nChest opened\n")
+                                                    point += treasure_enemy["point"]
+                                                    user_point.config(text=("point: " + str(point)))
+                                                    keys.remove(key)
+                                                    key_found_bool=True
+                                                    break
+                                        else:
+                                            print("You don't have the correct key! Please type 'n' to skip! ")
+                                            for count, lines in enumerate(lines_room):
+                                                if "# treasure" in lines.lower():
+                                                    updated_lines.append(lines_room[count-1])
+                                                    updated_lines.append(lines_room[count])
+                                                    updated_lines.append(lines_room[count + 1])   
+                                    elif treasure_choice == "n":
+                                        print("You can come back anytime for the treasure!")
+                                        for count, lines in enumerate(lines_room):
+                                            if "# treasure" in lines.lower():
+                                                updated_lines.append(lines_room[count-1])
+                                                updated_lines.append(lines_room[count])
+                                                updated_lines.append(lines_room[count + 1])
+                                                key_found_bool=True
+                                    else:
+                                        print("Invalid input, try again!\n")
+                            dead_bool[idx]=False
+                        room_file.seek(0)
+                        room_file.writelines(updated_lines)
+                        room_file.truncate()
+                        break
+                    else:
+                        print("Don't have any weapons or health, go to the shop!")
+                        break                   
+                elif fight_run == "2":
+                    print("\n"+"-"*20+"\n")
+                    print("Get stronger and come back!")
+                    print("\n"+"-"*20+"\n")
+                    break
+                else:
+                    print("Invalid input, please enter valid option")
+                    break
+                    
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
