@@ -368,6 +368,54 @@ def adventure_room(room_copy,idx):
                 else:
                     print("Invalid input, please enter valid option")
                     break
+        elif dead_bool[idx]==False:
+            print("Enemy is dead")
+            updated_lines=[]
+            for i in range(2):
+                updated_lines.append(lines_room[i])
+            # if there is still treasure in the room
+            for count, lines in enumerate(lines_room):
+                if "# treasure" in lines.lower():
+                    treasure_bool=True
+                    treasure_line = lines_room[count + 1].split(",")
+                    treasure_enemy = {"code": int(treasure_line[0]), "point": int(treasure_line[1])}
+            if treasure_bool==True:
+                while(key_found_bool==False):
+                    treasure_choice = input("Wanna open the treasure? (y/n) ")
+                    for key in keys:
+                        if treasure_enemy["code"] in key.values():
+                            key_exist=True
+                    # if the user has the key opens the treasure and updates the file
+                    if treasure_choice == "y":
+                        if key_exist==True:
+                            for key in keys:
+                                if treasure_enemy["code"] in key.values():
+                                    print("\nChest opened\n")
+                                    point += treasure_enemy["point"]
+                                    user_point.config(text=("point: " + str(point)))
+                                    keys.remove(key)
+                                    key_found_bool=True
+                                    break
+                        else:
+                            print("You don't have the correct key! Please type 'n' to skip! ") 
+                    # saves the treasure for later entrance to the room
+                    elif treasure_choice == "n":
+                        print("You can come back anytime for the treasure!")
+                        for count, lines in enumerate(lines_room):
+                            if "# treasure" in lines.lower():
+                                updated_lines.append(lines_room[count-1])
+                                updated_lines.append(lines_room[count])
+                                updated_lines.append(lines_room[count + 1])
+                                key_found_bool=True
+                    else:
+                        print("Invalid input, try again!\n")
+            room_file.seek(0)
+            room_file.writelines(updated_lines)
+            room_file.truncate()
+    if point < 0:
+        win_loss("You Lost! Such a Loser!")
+    elif point >= 10:
+        win_loss("Congrats! You won!")
                     
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
