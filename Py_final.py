@@ -231,7 +231,49 @@ def adventure_room(room_copy,idx):
                             
                         chosen_armour = {}
                         treasure_enemy = {}                
-   
+                        show_inventory("armours")
+                        if armour_bool==True:
+                            while(arm_choice_bool==False):
+                                arm_choice=input("Do you wanna wear armour? (y/n)")
+                                if arm_choice=='y':
+                                    while(found_arm==False):  
+                                        chose_arm = input("Enter the name of the desired armour as given >> ")   
+                                        for dict in armours:                        
+                                            if dict["name"]==chose_arm:
+                                               chosen_armour=dict
+                                               found_arm=True
+                                               arm_choice_bool=True 
+                                            else:
+                                                print("Doesn't exist, please enter from existing weapons")
+                                elif arm_choice=='n':
+                                    armour_bool=False
+                                    print("\n"+"-"*20+"\n")
+                                    print("as you wish ") 
+                                    arm_choice_bool=True                           
+                                else:
+                                    print("Invalid input, please reenter!\n")
+                        for count, lines in enumerate(lines_room):
+                            if "# enemy" in lines.lower():
+                                enemy_line = lines_room[count + 1].split(",")
+                                dict_enemy = {"name": enemy_line[0], "damage": int(enemy_line[1]), "health": int(enemy_line[2])}
+                            elif "# point" in lines.lower():
+                                point_line = int(lines_room[count + 1])
+                            elif "# weapon" in lines.lower():
+                                weapon_line = lines_room[count + 1].split(",")
+                                dict_weapon = {"name": weapon_line[0], "damage": int(weapon_line[1]), "price": int(weapon_line[2])}
+                            elif "# money" in lines.lower():
+                                money_line = int(lines_room[count + 1])
+                            elif "# treasure" in lines.lower():
+                                treasure_bool=True
+                                treasure_line = lines_room[count + 1].split(",")
+                                treasure_enemy = {"code": int(treasure_line[0]), "point": int(treasure_line[1])}
+                            elif "# key" in lines.lower():
+                                key_bool=True
+                                key_line = lines_room[count + 1].split(",")
+                                key_enemy = {"name": "key", "code": int(key_line[0]), "price": int(key_line[1])}
+                            elif "# healingpad" in lines.lower():
+                                pad_bool=True
+                                pad_line=int(lines_room[count + 1])
 inventory=tkinter.Button(Frame_info, text="inventory", command=change)
 inventory.grid(row=0, column=5)
 room1_bt=tkinter.Button(Frame_info, text="Room 1", command=change, height=4,width=8)
