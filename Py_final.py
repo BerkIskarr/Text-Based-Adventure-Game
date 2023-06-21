@@ -366,6 +366,8 @@ def adventure_room(room_copy,idx):
                             weapons.remove(chosen_weapon)
                             health=0
                             set_health(health)
+                            if found_arm==True:
+                                armours.remove(chosen_armour)
                             for count, lines in enumerate(updated_lines):
                                 if "# enemy" in lines.lower():
                                     updated_lines[count + 1] = dict_enemy["name"] + "," +str(dict_enemy["damage"]) + "," + str(dict_enemy["health"]) + "\n"
